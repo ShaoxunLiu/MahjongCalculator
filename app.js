@@ -15,7 +15,8 @@
     nextId: 1,
     nextMeldId: 1,
     selectedWinTile: "",
-    draggedTileId: null
+    draggedTileId: null,
+    lastHandTap: { id: null, time: 0 }
   };
 
   const els = {};
@@ -119,7 +120,15 @@
     els.handTiles.addEventListener("click", (event) => {
       const button = event.target.closest("[data-id]");
       if (!button) return;
-      toggleSelected(Number(button.dataset.id));
+      const id = Number(button.dataset.id);
+      if (handleHandTileDoubleTap(id, event)) return;
+      toggleSelected(id);
+    });
+    els.handTiles.addEventListener("dblclick", (event) => {
+      const button = event.target.closest("[data-id]");
+      if (!button) return;
+      event.preventDefault();
+      removeTileById(Number(button.dataset.id));
     });
     els.handTiles.addEventListener("dragstart", (event) => {
       const button = event.target.closest("[data-id]");
@@ -149,6 +158,7 @@
     els.undoTile.addEventListener("click", undoLastTile);
     els.clearAll.addEventListener("click", clearAll);
     document.addEventListener("keydown", handleGlobalShortcuts);
+    document.addEventListener("dblclick", preventDoubleTapZoom, { passive: false });
     els.winTileSelect.addEventListener("change", () => {
       state.selectedWinTile = els.winTileSelect.value;
       analyzeAndRender();
@@ -159,6 +169,21 @@
       control.addEventListener("change", analyzeAndRender);
       control.addEventListener("input", analyzeAndRender);
     });
+  }
+
+  function handleHandTileDoubleTap(id, event) {
+    const now = Date.now();
+    const isDoubleTap = state.lastHandTap.id === id && now - state.lastHandTap.time <= 350;
+    state.lastHandTap = { id, time: now };
+    if (!isDoubleTap) return false;
+    event.preventDefault();
+    removeTileById(id);
+    state.lastHandTap = { id: null, time: 0 };
+    return true;
+  }
+
+  function preventDoubleTapZoom(event) {
+    event.preventDefault();
   }
 
   function handleGlobalShortcuts(event) {
@@ -267,6 +292,7 @@
     state.nextMeldId = 1;
     state.selectedWinTile = "";
     state.draggedTileId = null;
+    state.lastHandTap = { id: null, time: 0 };
     renderAll();
   }
 
@@ -323,6 +349,7 @@
     if (item.meldId) removeMeldMark(item.meldId);
     state.concealed = state.concealed.filter((entry) => entry.id !== id);
     state.selectedIds.delete(id);
+    if (state.lastHandTap.id === id) state.lastHandTap = { id: null, time: 0 };
     renderAll();
   }
 
