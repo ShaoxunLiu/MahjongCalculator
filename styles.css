@@ -257,9 +257,18 @@ h2 {
   overflow: hidden;
 }
 
+.hand-tile:hover:not(:disabled) {
+  background: #f0faf6;
+  border-color: #8fcdbb;
+  color: inherit;
+  box-shadow: 0 0 0 4px rgba(22, 115, 91, 0.13), 0 2px 0 rgba(24, 32, 31, 0.08);
+}
+
 .hand-tile.selected {
-  outline: 3px solid rgba(186, 38, 54, 0.36);
-  border-color: var(--red);
+  background: #f0faf6;
+  outline: 3px solid rgba(22, 115, 91, 0.22);
+  border-color: #74bda7;
+  box-shadow: 0 0 0 5px rgba(22, 115, 91, 0.12), 0 2px 0 rgba(24, 32, 31, 0.08);
 }
 
 .hand-tile.dragging {
@@ -288,6 +297,32 @@ h2 {
 .hand-tile.meld-angang {
   background: #f5edf9;
   border-color: #8b54b5;
+}
+
+.hand-tile.meld-tile:hover:not(:disabled),
+.hand-tile.meld-tile.selected {
+  outline: 3px solid rgba(22, 115, 91, 0.24);
+  box-shadow: 0 0 0 5px rgba(22, 115, 91, 0.13), 0 2px 0 rgba(24, 32, 31, 0.08);
+}
+
+.hand-tile.meld-chi:hover:not(:disabled),
+.hand-tile.meld-chi.selected {
+  background: #e7f7f2;
+}
+
+.hand-tile.meld-peng:hover:not(:disabled),
+.hand-tile.meld-peng.selected {
+  background: #edf3ff;
+}
+
+.hand-tile.meld-minggang:hover:not(:disabled),
+.hand-tile.meld-minggang.selected {
+  background: #fff4d8;
+}
+
+.hand-tile.meld-angang:hover:not(:disabled),
+.hand-tile.meld-angang.selected {
+  background: #f5edf9;
 }
 
 .meld-tag {
