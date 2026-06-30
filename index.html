@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MahjongCalculator - 国标麻将算番器</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>MahjongCalculator</h1>
+      <p>国标麻将算番器：点击牌池录入，点选手牌后标记吃、碰、明杠或暗杠，拖回牌池可删除。</p>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="input-side" aria-label="牌型输入">
+      <section class="panel">
+        <div class="section-title">
+          <h2>牌池</h2>
+          <button id="undoTile" class="ghost-button" type="button">撤销</button>
+        </div>
+        <div id="tilePalette" class="tile-palette"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>我的手牌</h2>
+          <div class="hand-toolbar">
+            <div class="stats">
+              <span id="physicalCount">实体 0</span>
+              <span id="effectiveCount">有效 0</span>
+            </div>
+            <button id="clearAll" class="danger-button compact-button" type="button" title="快捷键：Ctrl+Backspace">清空手牌</button>
+          </div>
+        </div>
+        <div id="handTiles" class="hand-tiles empty-zone"></div>
+        <div class="action-row">
+          <button id="makeChi" type="button">设为吃</button>
+          <button id="makePeng" type="button">设为碰</button>
+          <button id="makeMingGang" type="button">设为明杠</button>
+          <button id="makeAnGang" type="button">设为暗杠</button>
+          <button id="clearMeld" class="ghost-button" type="button">清除标记</button>
+          <button id="clearSelection" class="ghost-button" type="button">取消选择</button>
+        </div>
+      </section>
+    </section>
+
+    <section class="output-side" aria-label="算番">
+      <section class="panel compact-panel">
+        <h2>和牌条件</h2>
+        <div class="form-grid">
+          <label>
+            圈风
+            <select id="roundWind">
+              <option value="27">东</option>
+              <option value="28">南</option>
+              <option value="29">西</option>
+              <option value="30">北</option>
+            </select>
+          </label>
+          <label>
+            门风
+            <select id="seatWind">
+              <option value="27">东</option>
+              <option value="28">南</option>
+              <option value="29">西</option>
+              <option value="30">北</option>
+            </select>
+          </label>
+          <label>
+            和牌张
+            <select id="winTileSelect">
+              <option value="">自动</option>
+            </select>
+          </label>
+          <label>
+            花牌
+            <input id="flowerCount" type="number" min="0" max="8" value="0">
+          </label>
+        </div>
+
+        <div class="segmented" role="radiogroup" aria-label="和牌方式">
+          <label><input type="radio" name="winFrom" value="zimo" checked>自摸</label>
+          <label><input type="radio" name="winFrom" value="ron">点和</label>
+        </div>
+
+        <div class="switch-grid">
+          <label><input id="lastDraw" type="checkbox">妙手回春</label>
+          <label><input id="lastDiscard" type="checkbox">海底捞月</label>
+          <label><input id="kongDraw" type="checkbox">杠上开花</label>
+          <label><input id="robKong" type="checkbox">抢杠和</label>
+          <label><input id="lastTile" type="checkbox">和绝张</label>
+        </div>
+      </section>
+
+      <section class="panel result-panel">
+        <div class="section-title">
+          <h2>算番结果</h2>
+          <span class="minimum">国标起胡 8 番</span>
+        </div>
+        <div id="result" class="result-content"></div>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
